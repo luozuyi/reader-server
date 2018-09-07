@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.bid.mapper.PurchaserOtherBidMapper">
+    <resultMap id="BaseResultMap" type="org.springframework.ui.ModelMap">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+        <result column="purchaser_project_id" jdbcType="VARCHAR" property="purchaserProjectId"/>
+        <result column="purchaser_id" jdbcType="VARCHAR" property="purchaserId"/>
+        <result column="project_name" jdbcType="VARCHAR" property="projectName"/>
+        <result column="project_num" jdbcType="VARCHAR" property="projectNum"/>
+
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="project_num" jdbcType="VARCHAR" property="projectNum"/>
+        <result column="material_category_id" jdbcType="VARCHAR" property="materialCategoryId"/>
+        <result column="is_open_contact_info" jdbcType="VARCHAR" property="isOpenContactInfo"/>
+        <result column="bid_deadline" jdbcType="TIMESTAMP" property="bidDeadline"/>
+
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="is_include_tax" jdbcType="VARCHAR" property="isIncludeTax"/>
+        <result column="tax_rate" jdbcType="VARCHAR" property="taxRate"/>
+        <result column="bidder_total_price" jdbcType="DECIMAL" property="bidderTotalPrice"/>
+        <result column="estimate_total" jdbcType="DECIMAL" property="estimateTotal"/>
+        <result column="supplier_province" jdbcType="VARCHAR" property="supplierProvince"/>
+        <result column="supplier_business_model" jdbcType="VARCHAR" property="supplierBusinessModel"/>
+        <result column="supplier_registered_capital" jdbcType="VARCHAR" property="supplierRegisteredCapital"/>
+        <result column="certificate_rrequirements" jdbcType="VARCHAR" property="certificateRrequirements"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="note" jdbcType="VARCHAR" property="note"/>
+        <result column="is_public" jdbcType="VARCHAR" property="isPublic"/>
+        <result column="user" jdbcType="VARCHAR" property="user"/>
+        <result column="quotation_number" jdbcType="INTEGER" property="quotationNumber"/>
+        <result column="accessory_id" jdbcType="VARCHAR" property="accessoryId"/>
+        <result column="invoice_type" jdbcType="VARCHAR" property="invoiceType"/>
+        <result column="contact_person" jdbcType="VARCHAR" property="contactPerson"/>
+        <result column="contact_number" jdbcType="VARCHAR" property="contactNumber"/>
+        <result column="delivery_time" jdbcType="VARCHAR" property="deliveryTime"/>
+        <result column="receiving_way" jdbcType="VARCHAR" property="receivingWay"/>
+        <result column="freight" jdbcType="VARCHAR" property="freight"/>
+        <result column="is_invite_suppliers" jdbcType="VARCHAR" property="isInviteSuppliers"/>
+        <result column="reason" jdbcType="VARCHAR" property="reason"/>
+        <result column="sub_username" jdbcType="VARCHAR" property="subUsername"/>
+
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="proceess_id" jdbcType="VARCHAR" property="proceessId"/>
+        <result column="tack_status" jdbcType="VARCHAR" property="tackStatus"/>
+        <result column="is_examine" jdbcType="VARCHAR" property="isExamine"/>
+        <result column="is_contract" jdbcType="VARCHAR" property="isContract"/>
+    </resultMap>
+
+
+    <select id="getAll" resultMap="BaseResultMap">
+        select id, project_name,create_time,bid_deadline,project_num, quotation_number,status from
+        cj_ancaiyun_purchaser_other_bid
+        where del_flag = "0"
+        <if test="title!=null and title != ''">
+            AND project_name like CONCAT(CONCAT('%', #{title}), '%')
+        </if>
+        <if test="bidNumber!=null and bidNumber != ''">
+            and project_num =#{bidNumber}
+        </if>
+        <if test="status!=null and status!= ''">
+            and status =#{status}
+        </if>
+        <if test="startTimeOne!=null and startTimeOne != ''">
+            and bid_deadline&gt;=#{startTimeOne}
+        </if>
+
+        <if test="startTimeTwo!=null and startTimeTwo != ''">
+            and bid_deadline&lt;=#{startTimeTwo}
+        </if>
+
+
+        order by create_time desc
+    </select>
+
+    <select id="getDetail" resultMap="BaseResultMap">
+    select * from cj_ancaiyun_purchaser_other_bid
+    where del_flag = "0" and id=#{id,jdbcType=VARCHAR}
+  </select>
+
+    <update id="delete">
+    update cj_ancaiyun_purchaser_other_bid set del_flag=1 where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

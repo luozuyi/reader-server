@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.PartnerMapper">
+  <resultMap id="BaseResultMap" type="com.ancaiyun.entity.Partner">
+    <id column="partner_id" jdbcType="VARCHAR" property="partnerId" />
+    <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="company_constacts" jdbcType="VARCHAR" property="companyConstacts" />
+    <result column="company_tel" jdbcType="VARCHAR" property="companyTel" />
+    <result column="partner_qq" jdbcType="VARCHAR" property="partnerQq" />
+    <result column="company_website" jdbcType="VARCHAR" property="companyWebsite" />
+    <result column="http_images_url" jdbcType="VARCHAR" property="httpImagesUrl" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ancaiyun.entity.Partner">
+    <result column="cooperation_contents" jdbcType="LONGVARCHAR" property="cooperationContents" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    partner_id, submit_time, company_constacts, company_tel, partner_qq, company_website, 
+    http_images_url, del_flag
+  </sql>
+  <sql id="Blob_Column_List">
+    cooperation_contents
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cj_ancaiyun_partner
+    where partner_id = #{partnerId,jdbcType=VARCHAR} and del_flag = "0"
+  </select>
+  <select id="selectAll" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cj_ancaiyun_partner
+    where del_flag = "0"
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cj_ancaiyun_partner
+    where partner_id = #{partnerId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ancaiyun.entity.Partner">
+    insert into cj_ancaiyun_partner (partner_id, submit_time, company_constacts, 
+      company_tel, partner_qq, company_website, 
+      http_images_url, del_flag, cooperation_contents
+      )
+    values (#{partnerId,jdbcType=VARCHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{companyConstacts,jdbcType=VARCHAR}, 
+      #{companyTel,jdbcType=VARCHAR}, #{partnerQq,jdbcType=VARCHAR}, #{companyWebsite,jdbcType=VARCHAR}, 
+      #{httpImagesUrl,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR}, #{cooperationContents,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ancaiyun.entity.Partner">
+    insert into cj_ancaiyun_partner
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="partnerId != null">
+        partner_id,
+      </if>
+      <if test="submitTime != null">
+        submit_time,
+      </if>
+      <if test="companyConstacts != null">
+        company_constacts,
+      </if>
+      <if test="companyTel != null">
+        company_tel,
+      </if>
+      <if test="partnerQq != null">
+        partner_qq,
+      </if>
+      <if test="companyWebsite != null">
+        company_website,
+      </if>
+      <if test="httpImagesUrl != null">
+        http_images_url,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="cooperationContents != null">
+        cooperation_contents,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="partnerId != null">
+        #{partnerId,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null">
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyConstacts != null">
+        #{companyConstacts,jdbcType=VARCHAR},
+      </if>
+      <if test="companyTel != null">
+        #{companyTel,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerQq != null">
+        #{partnerQq,jdbcType=VARCHAR},
+      </if>
+      <if test="companyWebsite != null">
+        #{companyWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="httpImagesUrl != null">
+        #{httpImagesUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperationContents != null">
+        #{cooperationContents,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ancaiyun.entity.Partner">
+    update cj_ancaiyun_partner
+    <set>
+      <if test="submitTime != null">
+        submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyConstacts != null">
+        company_constacts = #{companyConstacts,jdbcType=VARCHAR},
+      </if>
+      <if test="companyTel != null">
+        company_tel = #{companyTel,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerQq != null">
+        partner_qq = #{partnerQq,jdbcType=VARCHAR},
+      </if>
+      <if test="companyWebsite != null">
+        company_website = #{companyWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="httpImagesUrl != null">
+        http_images_url = #{httpImagesUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperationContents != null">
+        cooperation_contents = #{cooperationContents,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where partner_id = #{partnerId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ancaiyun.entity.Partner">
+    update cj_ancaiyun_partner
+    set submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      company_constacts = #{companyConstacts,jdbcType=VARCHAR},
+      company_tel = #{companyTel,jdbcType=VARCHAR},
+      partner_qq = #{partnerQq,jdbcType=VARCHAR},
+      company_website = #{companyWebsite,jdbcType=VARCHAR},
+      http_images_url = #{httpImagesUrl,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      cooperation_contents = #{cooperationContents,jdbcType=LONGVARCHAR}
+    where partner_id = #{partnerId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ancaiyun.entity.Partner">
+    update cj_ancaiyun_partner
+    set submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      company_constacts = #{companyConstacts,jdbcType=VARCHAR},
+      company_tel = #{companyTel,jdbcType=VARCHAR},
+      partner_qq = #{partnerQq,jdbcType=VARCHAR},
+      company_website = #{companyWebsite,jdbcType=VARCHAR},
+      http_images_url = #{httpImagesUrl,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=VARCHAR}
+    where partner_id = #{partnerId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.ChildAccountMapper">
+  <resultMap id="BaseResultMap" type="com.ancaiyun.entity.ChildAccount">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="child_id" jdbcType="VARCHAR" property="childId" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="subordinate_unit" jdbcType="VARCHAR" property="subordinateUnit" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="realName" jdbcType="VARCHAR" property="realname" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="organization_id" jdbcType="VARCHAR" property="organizationId" />
+    <result column="sub_username" jdbcType="VARCHAR" property="subUsername" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_time, del_flag, child_id, parent_id, subordinate_unit, mobile, position, 
+    realName, qq, organization_id, sub_username, role_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cj_ancaiyun_child_account
+    where id = #{id,jdbcType=VARCHAR} and del_flag = "0"
+  </select>
+  <select id="selectChildListByUserId" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    a.id,
+    a.mobile,
+    a.realName,
+    a.role_name AS roleName,
+    a.subordinate_unit AS subordinateUnit,
+    a.create_time AS createTime,
+    b.username
+    FROM
+    cj_ancaiyun_child_account AS a
+    LEFT JOIN cj_ancaiyun_user AS b ON a.child_id = b.id
+    where a.parent_id = #{userId,jdbcType=VARCHAR}
+    <if test="username != null and username !=''">
+      and b.username = #{username,jdbcType=VARCHAR}
+    </if>
+    <if test="startTime != null and startTime !=''">
+      and a.create_time >= #{startTime,jdbcType=VARCHAR}
+    </if>
+    <if test="endTime != null and endTime !=''">
+      and a.create_time &lt;= #{endTime,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectParentByMemberId" parameterType="java.lang.String" resultType="java.util.Map">
+    SELECT
+	a.trade_status AS tradeStatus,
+	a.mobile,
+	a.status,
+	a.create_time AS createTime,
+	b.username,
+	b.id AS userId,
+	c.company_name AS companyName,
+	c.company_registered_capital AS companyRegisteredCapital
+    FROM
+        cj_ancaiyun_member AS a
+    LEFT JOIN cj_ancaiyun_user AS b ON a.user_id = b.id
+    LEFT JOIN cj_ancaiyun_member_extra_data AS c ON a.extra_data_id = c.id
+    WHERE a.id = #{memberId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cj_ancaiyun_child_account
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ancaiyun.entity.ChildAccount">
+    insert into cj_ancaiyun_child_account (id, create_time, del_flag, 
+      child_id, parent_id, subordinate_unit, 
+      mobile, position, realName, 
+      qq, organization_id, sub_username, 
+      role_name)
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR}, 
+      #{childId,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{subordinateUnit,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{qq,jdbcType=VARCHAR}, #{organizationId,jdbcType=VARCHAR}, #{subUsername,jdbcType=VARCHAR}, 
+      #{roleName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ancaiyun.entity.ChildAccount">
+    insert into cj_ancaiyun_child_account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="childId != null">
+        child_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="subordinateUnit != null">
+        subordinate_unit,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="realname != null">
+        realName,
+      </if>
+      <if test="qq != null">
+        qq,
+      </if>
+      <if test="organizationId != null">
+        organization_id,
+      </if>
+      <if test="subUsername != null">
+        sub_username,
+      </if>
+      <if test="roleName != null">
+        role_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="childId != null">
+        #{childId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="subordinateUnit != null">
+        #{subordinateUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationId != null">
+        #{organizationId,jdbcType=VARCHAR},
+      </if>
+      <if test="subUsername != null">
+        #{subUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ancaiyun.entity.ChildAccount">
+    update cj_ancaiyun_child_account
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="childId != null">
+        child_id = #{childId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="subordinateUnit != null">
+        subordinate_unit = #{subordinateUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realName = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationId != null">
+        organization_id = #{organizationId,jdbcType=VARCHAR},
+      </if>
+      <if test="subUsername != null">
+        sub_username = #{subUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null">
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ancaiyun.entity.ChildAccount">
+    update cj_ancaiyun_child_account
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      child_id = #{childId,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      subordinate_unit = #{subordinateUnit,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      realName = #{realname,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      organization_id = #{organizationId,jdbcType=VARCHAR},
+      sub_username = #{subUsername,jdbcType=VARCHAR},
+      role_name = #{roleName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

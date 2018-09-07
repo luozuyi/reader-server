@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.BankMapper">
+
+    <resultMap id="BaseResultMap" type="com.ancaiyun.entity.Bank">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+        <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+        <result column="bank_code" jdbcType="VARCHAR" property="bankCode" />
+        <result column="bank_img" jdbcType="VARCHAR" property="bankImg" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        create_time,
+        del_flag,
+        bank_name,
+        bank_code,
+        bank_img
+    </sql>
+
+    <select id="getList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_bank
+        where 1 = 1
+        and del_flag = '0'
+        order by create_time desc
+    </select>
+
+    <select id="getByBankName" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_bank
+        where 1 = 1
+        and del_flag = '0'
+        and bank_name = #{bankName,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.ancaiyun.entity.Bank">
+        insert into cj_ancaiyun_bank (
+        <include refid="Base_Column_List" />
+        )
+        values (
+        #{id},
+        #{createTime},
+        #{delFlag},
+        #{bankName},
+        #{bankCode},
+        #{bankImg}
+        )
+    </insert>
+
+    <select id="getById" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_bank
+        where 1 = 1
+        and id = #{id}
+        and del_flag = '0'
+    </select>
+
+    <update id="update" parameterType="com.ancaiyun.entity.Bank">
+        update cj_ancaiyun_bank
+        <set>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="bankName != null">
+                bank_name = #{bankName},
+            </if>
+            <if test="bankCode != null">
+                bank_code = #{bankCode},
+            </if>
+            <if test="bankImg != null">
+                bank_img = #{bankImg}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.MemberBankMapper">
+
+    <resultMap id="BaseResultMap" type="com.ancaiyun.entity.MemberBank">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+        <result column="member_id" jdbcType="VARCHAR" property="memberId" />
+        <result column="bank_id" jdbcType="VARCHAR" property="bankId" />
+        <result column="is_default" jdbcType="VARCHAR" property="isDefault" />
+        <result column="bank_password" jdbcType="VARCHAR" property="bankPassword" />
+        <result column="card_code" jdbcType="VARCHAR" property="cardCode" />
+        <result column="sub_username" jdbcType="VARCHAR" property="subUsername" />
+    </resultMap>
+
+    <resultMap id="bankResultMap" type="java.util.Map">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+        <result column="card_code" jdbcType="VARCHAR" property="cardCode" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        create_time,
+        del_flag,
+        member_id,
+        bank_id,
+        is_default,
+        bank_password,
+        card_code,
+        sub_username
+    </sql>
+
+    <!--select id="getList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_member_bank
+        where del_flag = '0'
+        <if test="startTime != null">
+            and create_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and create_time &lt;= #{endTime}
+        </if>
+        <if test="username != null">
+            and member_id = #{username}
+        </if>
+        <if test="cardCode != null">
+            and card_code = #{cardCode}
+        </if>
+        order by create_time desc
+    </select>-->
+
+    <select id="getList" parameterType="java.util.Map" resultMap="bankResultMap">
+        select
+            mb.id,
+            u.username,
+            b.bank_name,
+            mb.card_code,
+            mb.create_time
+        from cj_ancaiyun_member_bank mb,
+            cj_ancaiyun_bank b,
+            cj_ancaiyun_user u
+        where mb.bank_id = b.id
+        and u.id = (select user_id from cj_ancaiyun_member where mb.member_id = id)
+        and mb.del_flag = '0'
+        <if test="startTime != null">
+            and mb.create_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and mb.create_time &lt;= #{endTime}
+        </if>
+        <if test="username != null">
+            and mb.member_id = #{username}
+        </if>
+        <if test="cardCode != null">
+            and mb.card_code = #{cardCode}
+        </if>
+        order by mb.create_time desc
+    </select>
+
+    <select id="getById" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_member_bank
+        where 1 = 1
+        and id = #{id}
+        and del_flag = '0'
+    </select>
+
+</mapper>

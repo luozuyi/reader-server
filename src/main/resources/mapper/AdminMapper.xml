@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.AdminMapper">
+  <resultMap id="BaseResultMap" type="com.ancaiyun.entity.Admin">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
+    <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
+    <result column="admin_real_name" jdbcType="VARCHAR" property="adminRealName" />
+    <result column="admin_status" jdbcType="VARCHAR" property="adminStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_time, del_flag, admin_name, admin_password, admin_real_name, admin_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cj_ancaiyun_admin
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from cj_ancaiyun_admin
+    where del_flag = "0"
+  </select>
+  <select id="selectByAdminName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cj_ancaiyun_admin
+    where admin_name = #{adminName,jdbcType=VARCHAR} and del_flag = "0"
+  </select>
+  <select id="selectAllBySelect" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select * from cj_ancaiyun_admin
+    <where>
+      <if test="startTime!=null and startTime != ''">
+        and create_time>=#{startTime}
+      </if>
+      <if test="endTime!=null and endTime != ''">
+        and create_time &lt;=#{endTime}
+      </if>
+      <if test="adminName!=null and adminName != ''">
+        and admin_name =#{adminName}
+      </if>
+      <if test="adminStatus!=null and adminStatus != ''">
+        and admin_status =#{adminStatus}
+      </if>
+      <if test="delFlag!=null and delFlag != ''">
+        and del_flag =#{delFlag}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cj_ancaiyun_admin
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ancaiyun.entity.Admin">
+    insert into cj_ancaiyun_admin (id, create_time, del_flag, 
+      admin_name, admin_password, admin_real_name, 
+      admin_status)
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR}, 
+      #{adminName,jdbcType=VARCHAR}, #{adminPassword,jdbcType=VARCHAR}, #{adminRealName,jdbcType=VARCHAR}, 
+      #{adminStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ancaiyun.entity.Admin">
+    insert into cj_ancaiyun_admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="adminName != null">
+        admin_name,
+      </if>
+      <if test="adminPassword != null">
+        admin_password,
+      </if>
+      <if test="adminRealName != null">
+        admin_real_name,
+      </if>
+      <if test="adminStatus != null">
+        admin_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="adminName != null">
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        #{adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRealName != null">
+        #{adminRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminStatus != null">
+        #{adminStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ancaiyun.entity.Admin">
+    update cj_ancaiyun_admin
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="adminName != null">
+        admin_name = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        admin_password = #{adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRealName != null">
+        admin_real_name = #{adminRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminStatus != null">
+        admin_status = #{adminStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ancaiyun.entity.Admin">
+    update cj_ancaiyun_admin
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      admin_name = #{adminName,jdbcType=VARCHAR},
+      admin_password = #{adminPassword,jdbcType=VARCHAR},
+      admin_real_name = #{adminRealName,jdbcType=VARCHAR},
+      admin_status = #{adminStatus,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

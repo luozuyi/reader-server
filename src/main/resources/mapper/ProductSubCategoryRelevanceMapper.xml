@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.bid.mapper.ProductSubCategoryRelevanceMapper">
+  <resultMap id="BaseResultMap" type="org.springframework.ui.ModelMap">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+
+    <result column="related_id" jdbcType="VARCHAR" property="relatedId" />
+    <result column="product_sub_category_id" jdbcType="VARCHAR" property="productSubCategoryId" />
+    <result column="product_sub_category_name" jdbcType="VARCHAR" property="productSubCategoryName" />
+  </resultMap>
+
+  <select id="getByRelevanceId" resultMap="BaseResultMap">
+    select product_sub_category_name  from cj_ancaiyun_product_sub_category_relevance
+    where del_flag = "0" and related_id=#{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

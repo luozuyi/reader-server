@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.ProductSubCategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.ancaiyun.entity.ProductSubCategory">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+        <result column="pc_name" jdbcType="VARCHAR" property="pcName" />
+        <result column="pc_level" jdbcType="BOOLEAN" property="pcLevel" />
+        <result column="pc_sequence" jdbcType="INTEGER" property="pcSequence" />
+        <result column="pc_category_id" jdbcType="VARCHAR" property="productCategoryId" />
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        create_time,
+        del_flag,
+        pc_name,
+        pc_level,
+        pc_sequence,
+        pc_category_id,
+        parent_id
+  </sql>
+
+    <select id="getListByProductCategoryId" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_product_sub_category
+        where pc_category_id = #{productCategoryId,jdbcType=VARCHAR}
+        and del_flag = '0'
+        order by pc_sequence asc
+    </select>
+
+    <select id="getListByParentId" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_product_sub_category
+        where parent_id = #{parentId,jdbcType=VARCHAR}
+        and del_flag = '0'
+        order by pc_sequence asc
+    </select>
+
+    <insert id="insert" parameterType="com.ancaiyun.entity.ProductSubCategory">
+    insert into cj_ancaiyun_product_sub_category (
+      id,
+      create_time,
+      del_flag,
+      pc_name,
+      pc_level,
+      pc_sequence,
+      pc_category_id,
+      parent_id
+    )
+    values (
+      #{id},
+      #{createTime},
+      #{delFlag},
+      #{pcName},
+      #{pcLevel},
+      #{pcSequence},
+      #{productCategoryId},
+      #{parentId}
+    )
+  </insert>
+
+    <update id="update" parameterType="com.ancaiyun.entity.ProductSubCategory">
+        update cj_ancaiyun_product_sub_category
+        <set>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="pcName != null">
+                pc_name = #{pcName}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getById" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_product_sub_category
+        where 1 = 1
+        and id = #{id}
+        and del_flag = '0'
+    </select>
+
+</mapper>

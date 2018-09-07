@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.bid.mapper.SupplierMaterialMapper">
+    <resultMap id="BaseResultMap" type="org.springframework.ui.ModelMap">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+
+        <result column="purchaser_bid_material_id" jdbcType="VARCHAR" property="purchaserBidMaterialId"/>
+        <result column="supplierBidder_id" jdbcType="VARCHAR" property="supplierBidderId"/>
+
+        <result column="purchaser_other_bid_material_id" jdbcType="VARCHAR" property="purchaserOtherBidMaterialId"/>
+        <result column="supplier_other_bidder_id" jdbcType="VARCHAR" property="supplierOtherBidderId"/>
+
+        <result column="contract_material_id" jdbcType="VARCHAR" property="contractMaterialId"/>
+        <result column="reject_id" jdbcType="VARCHAR" property="rejectId"/>
+
+
+        <result column="product_name" jdbcType="VARCHAR" property="productName"/>
+        <result column="specifications_model" jdbcType="VARCHAR" property="specificationsModel"/>
+        <result column="parameter" jdbcType="VARCHAR" property="parameter"/>
+        <result column="brand" jdbcType="VARCHAR" property="brand"/>
+        <result column="producing_area" jdbcType="VARCHAR" property="producingArea"/>
+        <result column="purchase_quantity" jdbcType="VARCHAR" property="purchaseQuantity"/>
+        <result column="unit" jdbcType="VARCHAR" property="unit"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+
+
+        <result column="bidder_price" jdbcType="DECIMAL" property="bidderPrice"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="tax_rate" jdbcType="VARCHAR" property="taxRate"/>
+
+
+        <result column="shipments_number" jdbcType="VARCHAR" property="shipmentsNumber"/>
+        <result column="collect_number" jdbcType="VARCHAR" property="collectNumber"/>
+
+
+    </resultMap>
+
+    <select id="getBySupplierBid" resultMap="BaseResultMap">
+        select  bidMaterial.product_name,bidMaterial.specifications_model,bidMaterial.brand,bidMaterial.unit,
+        bidMaterial.purchase_quantity,supplierMaterial.bidder_price,supplierMaterial.remark,supplierMaterial.tax_rate
+        from cj_ancaiyun_purchaser_bid_material bidMaterial,cj_ancaiyun_supplier_bidder_material supplierMaterial
+        where supplierMaterial.del_flag = "0" and supplierMaterial.supplierBidder_id=#{id,jdbcType=VARCHAR}
+        and supplierMaterial.purchaser_bid_material_id=bidMaterial.id
+  </select>
+
+    <select id="getOtherBid" resultMap="BaseResultMap">
+        select  bidMaterial.product_name,bidMaterial.specifications_model,bidMaterial.brand,bidMaterial.unit,
+        bidMaterial.purchase_quantity,supplierMaterial.bidder_price
+        from cj_ancaiyun_purchaser_other_bid_material bidMaterial,cj_ancaiyun_supplier_other_bidder_material supplierMaterial
+        where supplierMaterial.del_flag = "0" and supplierMaterial.supplier_other_bidder_id=#{id,jdbcType=VARCHAR}
+        and supplierMaterial.purchaser_other_bid_material_id=bidMaterial.id
+  </select>
+
+
+    <select id="getByRejecttId" resultMap="BaseResultMap">
+        select  orderMaterial.product_name,orderMaterial.specifications_model,orderMaterial.unit,
+        rejectMaterial.shipments_number,rejectMaterial.collect_number,rejectMaterial.remarks
+        from cj_ancaiyun_contract_material orderMaterial,cj_ancaiyun_reject_material rejectMaterial
+        where rejectMaterial.del_flag = "0" and rejectMaterial.reject_id=#{id,jdbcType=VARCHAR}
+        and rejectMaterial.contract_material_id=orderMaterial.id
+  </select>
+</mapper>

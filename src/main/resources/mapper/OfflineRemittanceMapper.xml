@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.OfflineRemittanceMapper">
+
+    <resultMap id="BaseResultMap" type="com.ancaiyun.entity.OfflineRemittance">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="remittance_name" jdbcType="VARCHAR" property="remittanceName" />
+        <result column="remittance_account" jdbcType="VARCHAR" property="remittanceAccount" />
+        <result column="beneficiary_account" jdbcType="VARCHAR" property="beneficiaryAccount" />
+        <result column="remittance_bank" jdbcType="VARCHAR" property="remittanceBank" />
+        <result column="remittance_money" jdbcType="DECIMAL" property="remittanceMoney" />
+        <result column="remittance_time" jdbcType="TIMESTAMP" property="remittanceTime" />
+        <result column="remittance_img" jdbcType="VARCHAR" property="remittanceImgId" />
+        <result column="note" jdbcType="VARCHAR" property="note" />
+        <result column="approve_man" jdbcType="VARCHAR" property="approveMan" />
+        <result column="approve_time" jdbcType="TIMESTAMP" property="approveTime" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="sub_username" jdbcType="VARCHAR" property="subUsername" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        create_time,
+        del_flag,
+        user_name,
+        remittance_name,
+        remittance_account,
+        beneficiary_account,
+        remittance_bank,
+        remittance_money,
+        remittance_time,
+        remittance_img,
+        note,
+        approve_man,
+        approve_time,
+        status,
+        sub_username
+    </sql>
+
+    <select id="getList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_offline_remittance
+        <where>
+        <if test="startTime != null">
+            and create_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and create_time &lt;= #{endTime}
+        </if>
+        <if test="userName != null">
+            and user_name = #{userName}
+        </if>
+        <if test="remittanceName != null">
+            and remittance_name = #{remittanceName}
+        </if>
+        <if test="remittanceAccount != null">
+            and remittance_account = #{remittanceAccount}
+        </if>
+        <if test="remittanceStartTime != null">
+            and remittance_time &gt;= #{remittanceStartTime}
+        </if>
+        <if test="remittanceEndTime != null">
+            and remittance_time &lt;= #{remittanceEndTime}
+        </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="getById" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_offline_remittance
+        where 1 = 1
+        and id = #{id}
+        and del_flag = '0'
+    </select>
+
+    <update id="update" parameterType="com.ancaiyun.entity.OfflineRemittance">
+        update cj_ancaiyun_offline_remittance
+        <set>
+            <if test="approveMan != null">
+                approve_man = #{approveMan},
+            </if>
+            <if test="approveTime != null">
+                approve_time = #{approveTime},
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.ChannelMapper">
+  <resultMap id="BaseResultMap" type="com.ancaiyun.entity.Channel">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+    <result column="outer_url" jdbcType="VARCHAR" property="outerUrl" />
+    <result column="is_display" jdbcType="INTEGER" property="isDisplay" />
+    <result column="tpl_channel" jdbcType="VARCHAR" property="tplChannel" />
+    <result column="tpl_content" jdbcType="VARCHAR" property="tplContent" />
+    <result column="is_blank" jdbcType="INTEGER" property="isBlank" />
+    <result column="priority" jdbcType="INTEGER" property="priority" />
+    <result column="param" jdbcType="VARCHAR" property="param" />
+    <result column="image_address" jdbcType="VARCHAR" property="imageAddress" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_time, del_flag, path, channel_name, outer_url, is_display, tpl_channel, 
+    tpl_content, is_blank, priority, param, image_address, parent_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cj_ancaiyun_channel
+    where id = #{id,jdbcType=VARCHAR} and del_flag = "0"
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cj_ancaiyun_channel
+    where del_flag = "0"
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cj_ancaiyun_channel
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ancaiyun.entity.Channel">
+    insert into cj_ancaiyun_channel (id, create_time, del_flag, 
+      path, channel_name, outer_url, 
+      is_display, tpl_channel, tpl_content, 
+      is_blank, priority, param, 
+      image_address, parent_id)
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR}, 
+      #{path,jdbcType=VARCHAR}, #{channelName,jdbcType=VARCHAR}, #{outerUrl,jdbcType=VARCHAR}, 
+      #{isDisplay,jdbcType=INTEGER}, #{tplChannel,jdbcType=VARCHAR}, #{tplContent,jdbcType=VARCHAR}, 
+      #{isBlank,jdbcType=INTEGER}, #{priority,jdbcType=INTEGER}, #{param,jdbcType=VARCHAR}, 
+      #{imageAddress,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ancaiyun.entity.Channel">
+    insert into cj_ancaiyun_channel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="channelName != null">
+        channel_name,
+      </if>
+      <if test="outerUrl != null">
+        outer_url,
+      </if>
+      <if test="isDisplay != null">
+        is_display,
+      </if>
+      <if test="tplChannel != null">
+        tpl_channel,
+      </if>
+      <if test="tplContent != null">
+        tpl_content,
+      </if>
+      <if test="isBlank != null">
+        is_blank,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="param != null">
+        param,
+      </if>
+      <if test="imageAddress != null">
+        image_address,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="channelName != null">
+        #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="outerUrl != null">
+        #{outerUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isDisplay != null">
+        #{isDisplay,jdbcType=INTEGER},
+      </if>
+      <if test="tplChannel != null">
+        #{tplChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="tplContent != null">
+        #{tplContent,jdbcType=VARCHAR},
+      </if>
+      <if test="isBlank != null">
+        #{isBlank,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="param != null">
+        #{param,jdbcType=VARCHAR},
+      </if>
+      <if test="imageAddress != null">
+        #{imageAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ancaiyun.entity.Channel">
+    update cj_ancaiyun_channel
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="channelName != null">
+        channel_name = #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="outerUrl != null">
+        outer_url = #{outerUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isDisplay != null">
+        is_display = #{isDisplay,jdbcType=INTEGER},
+      </if>
+      <if test="tplChannel != null">
+        tpl_channel = #{tplChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="tplContent != null">
+        tpl_content = #{tplContent,jdbcType=VARCHAR},
+      </if>
+      <if test="isBlank != null">
+        is_blank = #{isBlank,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="param != null">
+        param = #{param,jdbcType=VARCHAR},
+      </if>
+      <if test="imageAddress != null">
+        image_address = #{imageAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ancaiyun.entity.Channel">
+    update cj_ancaiyun_channel
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      channel_name = #{channelName,jdbcType=VARCHAR},
+      outer_url = #{outerUrl,jdbcType=VARCHAR},
+      is_display = #{isDisplay,jdbcType=INTEGER},
+      tpl_channel = #{tplChannel,jdbcType=VARCHAR},
+      tpl_content = #{tplContent,jdbcType=VARCHAR},
+      is_blank = #{isBlank,jdbcType=INTEGER},
+      priority = #{priority,jdbcType=INTEGER},
+      param = #{param,jdbcType=VARCHAR},
+      image_address = #{imageAddress,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

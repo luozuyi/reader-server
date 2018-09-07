@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.bid.mapper.MaterialMapper">
+    <resultMap id="BaseResultMap" type="org.springframework.ui.ModelMap">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+
+        <result column="other_bid_id" jdbcType="VARCHAR" property="otherBidId"/>
+        <result column="bid_id" jdbcType="VARCHAR" property="bidId"/>
+        <result column="contract_id" jdbcType="VARCHAR" property="contractId"/>
+        <result column="contract_order_id" jdbcType="VARCHAR" property="contractOrderId"/>
+
+        <result column="product_name" jdbcType="VARCHAR" property="productName"/>
+        <result column="specifications_model" jdbcType="VARCHAR" property="specificationsModel"/>
+        <result column="parameter" jdbcType="VARCHAR" property="parameter"/>
+        <result column="brand" jdbcType="VARCHAR" property="brand"/>
+        <result column="producing_area" jdbcType="VARCHAR" property="producingArea"/>
+        <result column="purchase_quantity" jdbcType="VARCHAR" property="purchaseQuantity"/>
+        <result column="unit" jdbcType="VARCHAR" property="unit"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+
+        <result column="bidder_price" jdbcType="VARCHAR" property="bidderPrice"/>
+        <result column="suplementary_id" jdbcType="VARCHAR" property="suplementaryId"/>
+        <result column="suplementary_status" jdbcType="VARCHAR" property="suplementaryStatus"/>
+
+
+        <result column="arrival_time" jdbcType="TIMESTAMP" property="arrivalTime"/>
+        <result column="arrival_place" jdbcType="VARCHAR" property="arrivalPlace"/>
+        <result column="reciever_phone" jdbcType="VARCHAR" property="recieverPhone"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="deliver_goods_time" jdbcType="TIMESTAMP" property="deliverGoodsTime"/>
+
+
+
+    </resultMap>
+
+    <select id="getByBid" resultMap="BaseResultMap">
+    select * from cj_ancaiyun_purchaser_bid_material
+    where del_flag = "0" and bid_id=#{id,jdbcType=VARCHAR}
+  </select>
+
+    <select id="getByOtherBid" resultMap="BaseResultMap">
+    select * from cj_ancaiyun_purchaser_other_bid_material
+    where del_flag = "0" and other_bid_id=#{id,jdbcType=VARCHAR}
+  </select>
+
+    <select id="getByContractId" resultMap="BaseResultMap">
+    select * from cj_ancaiyun_contract_new_material
+    where del_flag = "0" and contract_id=#{id,jdbcType=VARCHAR}   and suplementary_status is null
+  </select>
+
+    <select id="getByOrderId" resultMap="BaseResultMap">
+    select * from cj_ancaiyun_contract_material
+    where del_flag = "0" and contract_order_id=#{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

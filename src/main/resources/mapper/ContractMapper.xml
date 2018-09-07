@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.bid.mapper.ContractMapper">
+    <resultMap id="BaseResultMap" type="org.springframework.ui.ModelMap">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="serial_number" jdbcType="VARCHAR" property="serialNumber"/>
+        <result column="supplier_id" jdbcType="VARCHAR" property="supplierId"/>
+        <result column="send_address" jdbcType="VARCHAR" property="sendAddress"/>
+        <result column="buy_username" jdbcType="VARCHAR" property="buyUsername"/>
+        <result column="seller_username" jdbcType="VARCHAR" property="sellerUsername"/>
+        <result column="receiptAddress" jdbcType="VARCHAR" property="receiptAddress"/>
+        <result column="purchaser_phone" jdbcType="VARCHAR" property="purchaserPhone"/>
+        <result column="supplier_phone" jdbcType="VARCHAR" property="supplierPhone"/>
+        <result column="accessory_id" jdbcType="VARCHAR" property="accessoryId"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="accessory_contract_id" jdbcType="VARCHAR" property="accessoryContractId"/>
+        <result column="bidder_total_price" jdbcType="VARCHAR" property="bidderTotalPrice"/>
+        <result column="is_supplementary" jdbcType="VARCHAR" property="isSupplementary"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="proceess_id" jdbcType="VARCHAR" property="proceessId"/>
+        <result column="tack_status" jdbcType="VARCHAR" property="tackStatus"/>
+        <result column="is_examine" jdbcType="VARCHAR" property="isExamine"/>
+        <result column="reason" jdbcType="VARCHAR" property="reason"/>
+        <result column="sub_buy_username" jdbcType="VARCHAR" property="subBuyUsername"/>
+        <result column="sub_seller_username" jdbcType="VARCHAR" property="subSellerUsername"/>
+
+
+    </resultMap>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        select id, serial_number,title,start_time,buy_username, seller_username,type,status from cj_ancaiyun_contract
+        where del_flag = "0"
+        <if test="title!=null and title != ''">
+            AND title like CONCAT(CONCAT('%', #{title}), '%')
+        </if>
+        <if test="bidNumber!=null and bidNumber != ''">
+            and serial_number =#{bidNumber}
+        </if>
+        <if test="status!=null and status!= ''">
+            and status =#{status}
+        </if>
+        <if test="startTimeOne!=null and startTimeOne != ''">
+            and start_time &gt;=#{startTimeOne}
+        </if>
+
+        <if test="startTimeTwo!=null and startTimeTwo != ''">
+            and start_time &lt;=#{startTimeTwo}
+        </if>
+
+
+        order by create_time desc
+    </select>
+
+
+    <select id="getDetail" resultMap="BaseResultMap">
+    select * from cj_ancaiyun_contract
+    where del_flag = "0" and id=#{id,jdbcType=VARCHAR}
+  </select>
+
+
+    <update id="delete">
+    update cj_ancaiyun_contract set del_flag=1 where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

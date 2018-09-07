@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.ResMapper">
+  <resultMap id="BaseResultMap" type="com.ancaiyun.entity.Res">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="res_module_type" jdbcType="VARCHAR" property="resModuleType" />
+    <result column="sequence" jdbcType="INTEGER" property="sequence" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_time, del_flag, name, url, value, type, res_module_type, sequence, parent_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cj_ancaiyun_res
+    where id = #{id,jdbcType=VARCHAR} and del_flag = "0"
+  </select>
+  <select id="selectByType" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cj_ancaiyun_res
+    where type = #{type,jdbcType=VARCHAR} and del_flag = "0"
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cj_ancaiyun_res
+    where del_flag = "0"
+  </select>
+  <select id="selectByResModuleType" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cj_ancaiyun_res
+    where res_module_type = #{resModuleType,jdbcType=VARCHAR} and del_flag = "0"
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cj_ancaiyun_res
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ancaiyun.entity.Res">
+    insert into cj_ancaiyun_res (id, create_time, del_flag, 
+      name, url, value, type, 
+      res_module_type, sequence, parent_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{resModuleType,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER}, #{parentId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ancaiyun.entity.Res">
+    insert into cj_ancaiyun_res
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="value != null">
+        value,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="resModuleType != null">
+        res_module_type,
+      </if>
+      <if test="sequence != null">
+        sequence,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="resModuleType != null">
+        #{resModuleType,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null">
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ancaiyun.entity.Res">
+    update cj_ancaiyun_res
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null">
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="resModuleType != null">
+        res_module_type = #{resModuleType,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null">
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ancaiyun.entity.Res">
+    update cj_ancaiyun_res
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      value = #{value,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      res_module_type = #{resModuleType,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

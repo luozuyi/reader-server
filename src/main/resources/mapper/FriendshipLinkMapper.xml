@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.FriendshipLinkMapper">
+  <resultMap id="BaseResultMap" type="com.ancaiyun.entity.FriendshipLink">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="priority_level" jdbcType="INTEGER" property="priorityLevel" />
+    <result column="friendship_address" jdbcType="VARCHAR" property="friendshipAddress" />
+    <result column="friendship_mobile" jdbcType="VARCHAR" property="friendshipMobile" />
+    <result column="contact_qq" jdbcType="VARCHAR" property="contactQq" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="is_hidden" jdbcType="VARCHAR" property="isHidden" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ancaiyun.entity.FriendshipLink">
+    <result column="info" jdbcType="LONGVARCHAR" property="info" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_time, del_flag, priority_level, friendship_address, friendship_mobile, 
+    contact_qq, name, status, is_hidden
+  </sql>
+  <sql id="Blob_Column_List">
+    info
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cj_ancaiyun_friendship_link
+    where id = #{id,jdbcType=VARCHAR} and del_flag = "0"
+  </select>
+  <select id="selectAll" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cj_ancaiyun_friendship_link
+    where del_flag = "0"
+  </select>
+  <select id="selectAllBySelection" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cj_ancaiyun_friendship_link
+    <where>
+      <if test="startTime!=null and startTime != ''">
+        and create_time>=#{startTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endTime!=null and endTime != ''">
+        and create_time &lt;=#{endTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="friendshipAddress!=null and friendshipAddress != ''">
+        and friendship_address =#{friendshipAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="name!=null and name != ''">
+        and name =#{name,jdbcType=VARCHAR}
+      </if>
+      <if test="status!=null and status != ''">
+        and status =#{status,jdbcType=VARCHAR}
+      </if>
+      <if test="delFlag!=null and delFlag != ''">
+        and del_flag =#{delFlag,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cj_ancaiyun_friendship_link
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ancaiyun.entity.FriendshipLink">
+    insert into cj_ancaiyun_friendship_link (id, create_time, del_flag, 
+      priority_level, friendship_address, friendship_mobile, 
+      contact_qq, name, status, 
+      is_hidden, info)
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR}, 
+      #{priorityLevel,jdbcType=INTEGER}, #{friendshipAddress,jdbcType=VARCHAR}, #{friendshipMobile,jdbcType=VARCHAR}, 
+      #{contactQq,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{isHidden,jdbcType=VARCHAR}, #{info,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ancaiyun.entity.FriendshipLink">
+    insert into cj_ancaiyun_friendship_link
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="priorityLevel != null">
+        priority_level,
+      </if>
+      <if test="friendshipAddress != null">
+        friendship_address,
+      </if>
+      <if test="friendshipMobile != null">
+        friendship_mobile,
+      </if>
+      <if test="contactQq != null">
+        contact_qq,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isHidden != null">
+        is_hidden,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityLevel != null">
+        #{priorityLevel,jdbcType=INTEGER},
+      </if>
+      <if test="friendshipAddress != null">
+        #{friendshipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="friendshipMobile != null">
+        #{friendshipMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contactQq != null">
+        #{contactQq,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isHidden != null">
+        #{isHidden,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ancaiyun.entity.FriendshipLink">
+    update cj_ancaiyun_friendship_link
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityLevel != null">
+        priority_level = #{priorityLevel,jdbcType=INTEGER},
+      </if>
+      <if test="friendshipAddress != null">
+        friendship_address = #{friendshipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="friendshipMobile != null">
+        friendship_mobile = #{friendshipMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contactQq != null">
+        contact_qq = #{contactQq,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isHidden != null">
+        is_hidden = #{isHidden,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ancaiyun.entity.FriendshipLink">
+    update cj_ancaiyun_friendship_link
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      priority_level = #{priorityLevel,jdbcType=INTEGER},
+      friendship_address = #{friendshipAddress,jdbcType=VARCHAR},
+      friendship_mobile = #{friendshipMobile,jdbcType=VARCHAR},
+      contact_qq = #{contactQq,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      is_hidden = #{isHidden,jdbcType=VARCHAR},
+      info = #{info,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ancaiyun.entity.FriendshipLink">
+    update cj_ancaiyun_friendship_link
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      priority_level = #{priorityLevel,jdbcType=INTEGER},
+      friendship_address = #{friendshipAddress,jdbcType=VARCHAR},
+      friendship_mobile = #{friendshipMobile,jdbcType=VARCHAR},
+      contact_qq = #{contactQq,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      is_hidden = #{isHidden,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.bid.mapper.SupplierInfoMapper">
+    <resultMap id="BaseResultMap" type="org.springframework.ui.ModelMap">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="company_registered_capital" jdbcType="VARCHAR" property="companyRegisteredCapital"/>
+        <result column="company_employee_number" jdbcType="VARCHAR" property="companyEmployeeNumber"/>
+        <result column="company_telephone" jdbcType="VARCHAR" property="company_telephone"/>
+        <result column="company_province_city_country" jdbcType="VARCHAR" property="companyProvinceCityCountry"/>
+        <result column="company_enterprise_nature" jdbcType="VARCHAR" property="companyEnterpriseNature"/>
+        <result column="company_taxpayer_type" jdbcType="VARCHAR" property="companyTaxpayerType"/>
+        <result column="company_annual_turnover" jdbcType="VARCHAR" property="companyAnnualTurnover"/>
+        <result column="company_tax_rate" jdbcType="VARCHAR" property="companyTaxRate"/>
+        <result column="company_address" jdbcType="VARCHAR" property="companyAddress"/>
+        <result column="company_business_scope" jdbcType="VARCHAR" property="companyBusinessScope"/>
+        <result column="company_legal_person_name" jdbcType="VARCHAR" property="companyLegalPersonName"/>
+        <result column="company_website" jdbcType="VARCHAR" property="companyWebsite"/>
+        <result column="company_legal_person_certificate_type" jdbcType="VARCHAR" property="companyLegalPersonCertificateType"/>
+        <result column="company_legal_person_certificate_number" jdbcType="VARCHAR" property="companyLegalPersonCertificateNumber"/>
+        <result column="company_legal_person_certificate_telephone" jdbcType="VARCHAR" property="companyLegalPersonCertificateTelephone"/>
+        <result column="company_business_license" jdbcType="VARCHAR" property="companyBusinessLicense"/>
+        <result column="company_unified_social_credit_code" jdbcType="VARCHAR" property="companyUnifiedSocialCreditCode"/>
+        <result column="company_business_license_issue_date" jdbcType="TIMESTAMP" property="companyBusinessLicenseIssueDate"/>
+        <result column="company_business_license_register_date" jdbcType="TIMESTAMP" property="companyBusinessLicenseRegisterDate"/>
+        <result column="company_business_license_validaty_date" jdbcType="TIMESTAMP" property="companyBusinessLicenseValidatyDate"/>
+        <result column="company_business_license_address" jdbcType="VARCHAR" property="companyBusinessLicenseAddress"/>
+        <result column="company_business_license_electronic_version" jdbcType="VARCHAR" property="companyBusinessLicenseElectronicVersion"/>
+        <result column="company_enterprise_authorization_electronic_version" jdbcType="VARCHAR" property="companyEnterpriseAuthorizationElectronicVersion"/>
+        <result column="company_main_business_id" jdbcType="VARCHAR" property="companyMainBusinessId"/>
+        <result column="company_to_member" jdbcType="VARCHAR" property="companyToMember"/>
+        <result column="supplier_bidder_id" jdbcType="VARCHAR" property="supplierBidderId"/>
+        <result column="audit_status" jdbcType="VARCHAR" property="auditStatus"/>
+        <result column="material_category_id" jdbcType="VARCHAR" property="materialCategoryId"/>
+        <result column="is_bidding" jdbcType="VARCHAR" property="isBidding"/>
+        <result column="company_introduction" jdbcType="VARCHAR" property="companyIntroduction"/>
+
+        <result column="linkman_contacts" jdbcType="VARCHAR" property="linkmanContacts"/>
+        <result column="linkman_contacts_phone" jdbcType="VARCHAR" property="linkmanContactsPhone"/>
+        <result column="registration_authority" jdbcType="VARCHAR" property="registrationAuthority"/>
+        <result column="permitOf_opening_bank_accoun" jdbcType="VARCHAR" property="permitOfOpeningBankAccoun"/>
+        <result column="production_permit_no" jdbcType="VARCHAR" property="productionPermitNo"/>
+        <result column="safety_production_license_number" jdbcType="VARCHAR" property="safetyProductionLicenseNumber"/>
+        <result column="qualification_information" jdbcType="VARCHAR" property="qualificationInformation"/>
+        <result column="purchaser_id" jdbcType="VARCHAR" property="purchaserId"/>
+        <result column="purchaser_bid_id" jdbcType="VARCHAR" property="purchaserBidId"/>
+        <result column="purchaser_recruit_supplier_id" jdbcType="VARCHAR" property="purchaserRecruitSupplierId"/>
+        <result column="ground_for_rejection" jdbcType="VARCHAR" property="groundForRejection"/>
+        <result column="company_business_scopeDet" jdbcType="VARCHAR" property="companyBusinessScopeDet"/>
+        <result column="contactPosition" jdbcType="VARCHAR" property="contact_position"/>
+        <result column="contact_name" jdbcType="VARCHAR" property="contactName"/>
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
+        <result column="registered_address" jdbcType="VARCHAR" property="registeredAddress"/>
+        <result column="buy_sub_username" jdbcType="VARCHAR" property="buySubUsername"/>
+        <result column="seller_sub_username" jdbcType="VARCHAR" property="sellerSubUsername"/>
+
+    </resultMap>
+
+    <select id="getByBidId" resultMap="BaseResultMap">
+        select info.id, invited.create_time ,info.audit_status from  cj_ancaiyun_supplier_info info,cj_ancaiyun_invited_suppliers invited
+        where  info.del_flag = "0" and invited.correlation_id=#{id,jdbcType=VARCHAR} and info.id=supplier_info_id
+        order by invited.create_time desc
+    </select>
+
+    <select id="getByPurchaserBidId" resultMap="BaseResultMap">
+        select id, create_time , audit_status from  cj_ancaiyun_supplier_info
+        where  del_flag = "0" and purchaser_bid_id =#{id,jdbcType=VARCHAR}
+        order by create_time desc
+    </select>
+
+    <select id="getDetail" resultMap="BaseResultMap">
+        select * from  cj_ancaiyun_supplier_info
+        where  del_flag = "0" and id =#{id,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="getAllSupplier" resultMap="BaseResultMap">
+        select id, create_time , audit_status from  cj_ancaiyun_supplier_info
+        where  del_flag = "0" and purchaser_recruit_supplier_id =#{id,jdbcType=VARCHAR}
+        order by create_time desc
+    </select>
+</mapper>

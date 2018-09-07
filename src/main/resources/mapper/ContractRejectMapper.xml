@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.bid.mapper.ContractRejectMapper">
+  <resultMap id="BaseResultMap" type="org.springframework.ui.ModelMap">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+
+    <result column="shipments_documen_id" jdbcType="VARCHAR" property="shipmentsDocumentId" />
+    <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="biling_detail" jdbcType="VARCHAR" property="bilingDetail" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="againStatus" jdbcType="VARCHAR" property="againStatus" />
+    <result column="status_statements;" jdbcType="VARCHAR" property="statusStatements;" />
+    <result column="sub_buy_username" jdbcType="VARCHAR" property="subBuyUsername" />
+    <result column="sub_seller_username" jdbcType="VARCHAR" property="subSellerUsername" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="proceess_id" jdbcType="VARCHAR" property="proceessId" />
+    <result column="tack_status" jdbcType="VARCHAR" property="tackStatus" />
+    <result column="is_examine" jdbcType="VARCHAR" property="isExamine" />
+  </resultMap>
+
+  <select id="getAll" resultMap="BaseResultMap">
+    select reject.id, reject.shipments_document_id,reject.serial_number,reject.status, reject.status_statements from cj_ancaiyun_contract_reject reject,cj_ancaiyun_shipments_document shipments
+    where reject.del_flag = "0"
+    <if test="bidNumber!=null and bidNumber != ''">
+      and reject.serial_number =#{bidNumber}
+    </if>
+    <if test="status!=null and status!= ''">
+      and reject.status =#{status}
+    </if>
+    <if test="startTimeOne!=null and startTimeOne != ''">
+      and shipments.start_time &gt;=#{startTimeOne}
+    </if>
+
+    <if test="startTimeTwo!=null and startTimeTwo != ''">
+      and shipments.start_time &lt;=#{startTimeTwo}
+    </if>
+
+     and reject.shipments_document_id=shipments.id order by reject.create_time desc
+  </select>
+
+  <select id="getDetail" resultMap="BaseResultMap">
+    select * from cj_ancaiyun_contract_reject
+    where del_flag = "0" and id=#{id,jdbcType=VARCHAR}
+  </select>
+
+  <update id="delete" >
+    update cj_ancaiyun_contract_reject set del_flag=1 where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

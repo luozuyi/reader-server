@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.bid.mapper.SupplierBidMapper">
+    <resultMap id="BaseResultMap" type="org.springframework.ui.ModelMap">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+
+        <result column="supplier_id" jdbcType="VARCHAR" property="supplierId"/>
+        <result column="bid_id" jdbcType="VARCHAR" property="bidId"/>
+        <result column="purchaser_id" jdbcType="VARCHAR" property="purchaserId"/>
+        <result column="bidder_status" jdbcType="VARCHAR" property="bidderStatus"/>
+        <result column="invoice_type" jdbcType="VARCHAR" property="invoiceType"/>
+        <result column="tax_rate" jdbcType="VARCHAR" property="taxRate"/>
+        <result column="bidder_total_price" jdbcType="DECIMAL" property="bidderTotalPrice"/>
+        <result column="isInclude_shipping_charges" jdbcType="VARCHAR" property="isIncludeShippingCharges"/>
+        <result column="isInclude_tax_charges" jdbcType="VARCHAR" property="isIncludeTaxCharges"/>
+        <result column="note" jdbcType="VARCHAR" property="note"/>
+        <result column="actualQuotation" jdbcType="DECIMAL" property="actualQuotation"/>
+        <result column="pay_theDeposit_amount" jdbcType="VARCHAR" property="payTheDepositAmount"/>
+        <result column="appendix_to_tender" jdbcType="VARCHAR" property="appendixToTender"/>
+        <result column="win_bidding_date" jdbcType="VARCHAR" property="winBiddingDate"/>
+        <result column="buy_sub_username" jdbcType="VARCHAR" property="buySubUsername"/>
+        <result column="seller_sub_username" jdbcType="VARCHAR" property="sellerSubUsername"/>
+        <result column="is_pass_examine" jdbcType="VARCHAR" property="isPassExamine"/>
+
+        <result column="winning_reason" jdbcType="VARCHAR" property="winningReason"/>
+        <result column="tax_charges" jdbcType="VARCHAR" property="taxCharges"/>
+        <result column="freight_description" jdbcType="VARCHAR" property="freightDescription"/>
+        <result column="pre_chose_status" jdbcType="VARCHAR" property="preChoseStatus"/>
+
+
+
+    </resultMap>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        select id, supplier_id ,create_time , bidder_total_price,bidder_status from  cj_ancaiyun_supplier_bidder
+        where  del_flag = "0" and bid_id=#{id,jdbcType=VARCHAR}
+        order by create_time desc
+    </select>
+
+    <select id="getDetail" resultMap="BaseResultMap">
+        select * from  cj_ancaiyun_supplier_bidder
+        where  del_flag = "0" and id=#{id,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

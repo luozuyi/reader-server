@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.bid.mapper.StatementInvoiceMapper">
+  <resultMap id="BaseResultMap" type="org.springframework.ui.ModelMap">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+
+
+
+    <result column="statements_id" jdbcType="VARCHAR" property="statements_id" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+    <result column="status" jdbcType="VARCHAR" property="type" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+
+    <result column="buy_username" jdbcType="VARCHAR" property="buyUsername" />
+    <result column="seller_username" jdbcType="VARCHAR" property="sellerUsername" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="the_kinds_of_invoice" jdbcType="VARCHAR" property="theKindsOfInvoice" />
+    <result column="tax_rate" jdbcType="VARCHAR" property="taxRate" />
+    <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount" />
+    <result column="after_tax_total" jdbcType="DECIMAL" property="afterTaxTotal" />
+    <result column="make_out_an_invoice_date" jdbcType="DECIMAL" property="makeOutAnInvoiceDate" />
+
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="again_invoice" jdbcType="VARCHAR" property="againInvoice" />
+    <result column="sub_buy_username" jdbcType="VARCHAR" property="subBuyUsername" />
+    <result column="sub_seller_username" jdbcType="VARCHAR" property="subSellerUsername" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="proceess_id" jdbcType="TIMESTAMP" property="proceessId" />
+    <result column="tack_status" jdbcType="DECIMAL" property="tackStatus" />
+
+    <result column="is_examine" jdbcType="DECIMAL" property="isExamine" />
+    <result column="payment_id" jdbcType="DECIMAL" property="paymentId" />
+    <result column="invoice_file_id" jdbcType="DECIMAL" property="invoiceFileId" />
+    <result column="tack_status" jdbcType="DECIMAL" property="tackStatus" />
+    <result column="statements" jdbcType="DECIMAL" property="statements" />
+    <result column="kinds_of_invoice" jdbcType="DECIMAL" property="kindsOfInvoice" />
+    <result column="kinds" jdbcType="DECIMAL" property="kinds" />
+    <result column="account_id" jdbcType="DECIMAL" property="accountId" />
+
+  </resultMap>
+
+  <select id="getAll" resultMap="BaseResultMap">
+    select id,buy_username,seller_username,make_out_an_invoice_date, serial_number,status from cj_ancaiyun_statements_invoice
+    where del_flag = "0"
+    <if test="bidNumber!=null and bidNumber != ''">
+      and serial_number =#{bidNumber}
+    </if>
+    <if test="status!=null and status!= ''">
+      and status =#{status}
+    </if>
+    <if test="startTimeOne!=null and startTimeOne != ''">
+      and make_out_an_invoice_date &gt;=#{startTimeOne}
+    </if>
+
+    <if test="startTimeTwo!=null and startTimeTwo != ''">
+      and make_out_an_invoice_date &lt;=#{startTimeTwo}
+    </if>
+    order by  create_time desc
+  </select>
+
+  <select id="getDetail" resultMap="BaseResultMap">
+    select * from cj_ancaiyun_statements_invoice
+    where del_flag = "0" and id=#{id,jdbcType=VARCHAR}
+  </select>
+
+  <update id="delete" >
+     update cj_ancaiyun_statements_invoice set del_flag=1 where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

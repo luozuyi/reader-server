@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.ancaiyun.entity.Article">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="invalid_time" jdbcType="TIMESTAMP" property="invalidTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="browses" jdbcType="INTEGER" property="browses" />
+    <result column="param_one" jdbcType="VARCHAR" property="paramOne" />
+    <result column="param_two" jdbcType="VARCHAR" property="paramTwo" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="channel_article_template_id" jdbcType="VARCHAR" property="channelArticleTemplateId" />
+    <result column="cover_id" jdbcType="VARCHAR" property="coverId" />
+    <result column="article_content_id" jdbcType="VARCHAR" property="articleContentId" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_time, invalid_time, del_flag, title, author, summary, browses, param_one, 
+    param_two, channel_id, channel_article_template_id, cover_id, article_content_id, 
+    source
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cj_ancaiyun_article
+    where id = #{id,jdbcType=VARCHAR} and del_flag = "0"
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cj_ancaiyun_article
+    where del_flag = "0"
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cj_ancaiyun_article
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ancaiyun.entity.Article">
+    insert into cj_ancaiyun_article (id, create_time, invalid_time, 
+      del_flag, title, author, 
+      summary, browses, param_one, 
+      param_two, channel_id, channel_article_template_id, 
+      cover_id, article_content_id, source
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{invalidTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{summary,jdbcType=VARCHAR}, #{browses,jdbcType=INTEGER}, #{paramOne,jdbcType=VARCHAR}, 
+      #{paramTwo,jdbcType=VARCHAR}, #{channelId,jdbcType=VARCHAR}, #{channelArticleTemplateId,jdbcType=VARCHAR}, 
+      #{coverId,jdbcType=VARCHAR}, #{articleContentId,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ancaiyun.entity.Article">
+    insert into cj_ancaiyun_article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="invalidTime != null">
+        invalid_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="browses != null">
+        browses,
+      </if>
+      <if test="paramOne != null">
+        param_one,
+      </if>
+      <if test="paramTwo != null">
+        param_two,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="channelArticleTemplateId != null">
+        channel_article_template_id,
+      </if>
+      <if test="coverId != null">
+        cover_id,
+      </if>
+      <if test="articleContentId != null">
+        article_content_id,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null">
+        #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="browses != null">
+        #{browses,jdbcType=INTEGER},
+      </if>
+      <if test="paramOne != null">
+        #{paramOne,jdbcType=VARCHAR},
+      </if>
+      <if test="paramTwo != null">
+        #{paramTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelArticleTemplateId != null">
+        #{channelArticleTemplateId,jdbcType=VARCHAR},
+      </if>
+      <if test="coverId != null">
+        #{coverId,jdbcType=VARCHAR},
+      </if>
+      <if test="articleContentId != null">
+        #{articleContentId,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ancaiyun.entity.Article">
+    update cj_ancaiyun_article
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null">
+        invalid_time = #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="browses != null">
+        browses = #{browses,jdbcType=INTEGER},
+      </if>
+      <if test="paramOne != null">
+        param_one = #{paramOne,jdbcType=VARCHAR},
+      </if>
+      <if test="paramTwo != null">
+        param_two = #{paramTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelArticleTemplateId != null">
+        channel_article_template_id = #{channelArticleTemplateId,jdbcType=VARCHAR},
+      </if>
+      <if test="coverId != null">
+        cover_id = #{coverId,jdbcType=VARCHAR},
+      </if>
+      <if test="articleContentId != null">
+        article_content_id = #{articleContentId,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ancaiyun.entity.Article">
+    update cj_ancaiyun_article
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      invalid_time = #{invalidTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      browses = #{browses,jdbcType=INTEGER},
+      param_one = #{paramOne,jdbcType=VARCHAR},
+      param_two = #{paramTwo,jdbcType=VARCHAR},
+      channel_id = #{channelId,jdbcType=VARCHAR},
+      channel_article_template_id = #{channelArticleTemplateId,jdbcType=VARCHAR},
+      cover_id = #{coverId,jdbcType=VARCHAR},
+      article_content_id = #{articleContentId,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

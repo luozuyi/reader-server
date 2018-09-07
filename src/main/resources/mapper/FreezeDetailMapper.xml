@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ancaiyun.mapper.FreezeDetailMapper">
+
+    <resultMap id="BaseResultMap" type="com.ancaiyun.entity.FreezeDetail">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="freeze_money" jdbcType="VARCHAR" property="freezeMoney" />
+        <result column="freeze_type" jdbcType="VARCHAR" property="freezeType" />
+        <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="approve_man" jdbcType="VARCHAR" property="approveMan" />
+        <result column="approve_time" jdbcType="VARCHAR" property="approveTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        create_time,
+        del_flag,
+        user_name,
+        freeze_money,
+        freeze_type,
+        relation_id,
+        status,
+        approve_man,
+        approve_time
+  </sql>
+
+    <select id="getList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_freeze_detail
+        <where>
+            <if test="startTime != null">
+                and create_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null">
+                and create_time &lt;= #{endTime}
+            </if>
+            <if test="userName != null">
+                and user_name = #{userName}
+            </if>
+            <if test="freezeType != null">
+                and freeze_type = #{freezeType}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="getById" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_freeze_detail
+        where 1 = 1
+        and id = #{id}
+        and del_flag = '0'
+    </select>
+
+    <select id="getByRelationIdAndFreezeType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cj_ancaiyun_freeze_detail
+        where relation_id = #{relationId}
+        and freeze_type = #{freezeType}
+        and del_flag = '0'
+    </select>
+
+    <update id="update" parameterType="com.ancaiyun.entity.ProductSubCategory">
+        update cj_ancaiyun_freeze_detail
+        <set>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+</mapper>
