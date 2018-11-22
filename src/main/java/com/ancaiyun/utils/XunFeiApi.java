@@ -45,6 +45,35 @@ public class XunFeiApi {
         return MD5Util.encodeMD5Hex(str);
     }
 
+//    public static void main(String[] args) throws IOException {
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("language","en");
+//        jsonObject.put("location","false");
+//        String param = Base64Utils.encodeToUrlSafeString(jsonObject.toString().getBytes());
+//        //System.out.println(Base64Utils.encodeToUrlSafeString(jsonObject.toString().getBytes()));
+//        String currentTime = getCurrentTime();
+//        String token = getToken(APIKey,currentTime,param);
+//
+//        CloseableHttpClient httpClient = HttpClients.custom().build();
+//        HttpPost httpPost = new HttpPost(OCR);
+//        httpPost.setHeader("X-Appid",APPID);
+//        httpPost.setHeader("X-CurTime",currentTime);
+//        httpPost.setHeader("X-Param",param);
+//        httpPost.setHeader("X-CheckSum",token);
+//        //httpPost.setHeader("Content-Type","application/x-www-form-urlencoded; charset=utf-8");
+//        byte[] bytes = FileUtil.readFileByBytes("D:\\123456.png");
+//        String image = Base64Utils.encodeToUrlSafeString(bytes);
+//        String body = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(image, "UTF-8");
+//        //String body = "image" + "=" + URLEncoder.encode(image, "UTF-8");
+////        JSONObject jsonObjectNew = new JSONObject();
+////        jsonObjectNew.put("image",image);
+////        String body = URLEncoder.encode(jsonObjectNew.toString(),"UTF-8");
+////        System.out.println("ooooooooooooooooooooooooooooooooooo"+body.toString());
+//        httpPost.setEntity(new StringEntity(body));
+//        //httpClient.execute(httpPost);
+//        System.out.println(httpClient.execute(httpPost));
+//    }
+
     public static void main(String[] args) throws IOException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("language","en");
@@ -55,7 +84,7 @@ public class XunFeiApi {
         String token = getToken(APIKey,currentTime,param);
 
         CloseableHttpClient httpClient = HttpClients.custom().build();
-        HttpPost httpPost = new HttpPost(OCR);
+        HttpPost httpPost = new HttpPost("http://localhost:8080/back/v1/test000");
         httpPost.setHeader("X-Appid",APPID);
         httpPost.setHeader("X-CurTime",currentTime);
         httpPost.setHeader("X-Param",param);
@@ -63,12 +92,7 @@ public class XunFeiApi {
         //httpPost.setHeader("Content-Type","application/x-www-form-urlencoded; charset=utf-8");
         byte[] bytes = FileUtil.readFileByBytes("D:\\123456.png");
         String image = Base64Utils.encodeToUrlSafeString(bytes);
-        String body = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(image, "UTF-8");
-        //String body = "image" + "=" + URLEncoder.encode(image, "UTF-8");
-//        JSONObject jsonObjectNew = new JSONObject();
-//        jsonObjectNew.put("image",image);
-//        String body = URLEncoder.encode(jsonObjectNew.toString(),"UTF-8");
-//        System.out.println("ooooooooooooooooooooooooooooooooooo"+body.toString());
+        String body = URLEncoder.encode("haha", "UTF-8") + "=" + URLEncoder.encode(image, "UTF-8");
         httpPost.setEntity(new StringEntity(body));
         //httpClient.execute(httpPost);
         System.out.println(httpClient.execute(httpPost));
